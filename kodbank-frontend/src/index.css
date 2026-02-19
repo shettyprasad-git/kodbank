@@ -1,0 +1,262 @@
+:root {
+  --primary-color: #6c5ce7;
+  --secondary-color: #a29bfe;
+  --bg-color: #f0f3f5;
+  --text-color: #2d3436;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 600;
+  margin-left: 1.5rem;
+  transition: color 0.3s;
+}
+
+.navbar .logo a {
+  font-size: 1.5rem;
+  margin-left: 0;
+  color: var(--primary-color);
+}
+
+.auth-container,
+.dashboard-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container {
+  max-width: 600px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: white;
+}
+
+button {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #5b4cc4;
+}
+
+.error {
+  color: #ff7675;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.balance-section {
+  margin-top: 2rem;
+}
+
+.balance-card {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(108, 92, 231, 0.1);
+  border-radius: 12px;
+  animation: popIn 0.5s ease;
+}
+
+.confetti-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.party-popper {
+  font-size: 5rem;
+  animation: popScale 0.5s ease;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ffd700;
+  top: 50%;
+  left: 50%;
+}
+
+.c1 {
+  background: #fd79a8;
+  animation: shoot1 1s ease-out forwards;
+}
+
+.c2 {
+  background: #55efc4;
+  animation: shoot2 1s ease-out forwards;
+}
+
+.c3 {
+  background: #0984e3;
+  animation: shoot3 1s ease-out forwards;
+}
+
+.c4 {
+  background: #fab1a0;
+  animation: shoot4 1s ease-out forwards;
+}
+
+.c5 {
+  background: #6c5ce7;
+  animation: shoot5 1s ease-out forwards;
+}
+
+.c6 {
+  background: #ffeaa7;
+  animation: shoot6 1s ease-out forwards;
+}
+
+@keyframes popScale {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shoot1 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-100px, -150px) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shoot2 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0px, -200px) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shoot3 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(100px, -150px) rotate(135deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shoot4 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-80px, 50px) rotate(200deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shoot5 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(80px, 50px) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes shoot6 {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0px, 100px) rotate(180deg);
+    opacity: 0;
+  }
+}
