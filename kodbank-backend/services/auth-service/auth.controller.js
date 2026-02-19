@@ -10,8 +10,8 @@ class AuthController {
                 return responseHandler(res, 400, null, 'All fields are required');
             }
 
-            // Force role to be 'customer' as per requirements
-            const role = 'customer';
+            // Use role from request or default to 'customer'
+            const role = req.body.role || 'customer';
 
             const user = await AuthService.register({ username, email, password, phone, role });
             responseHandler(res, 201, user, 'User registered successfully');
@@ -31,16 +31,20 @@ class AuthController {
 
             const { user, accessToken, refreshToken } = await AuthService.login(username, password, userAgent);
 
+            const isProduction = process.env.NODE_ENV === 'production';
+
             // Set cookies
             res.cookie('accessToken', accessToken, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                secure: isProduction,
+                sameSite: isProduction ? 'none' : 'lax', // Critical for cross-site (Vercel frontend -> Vercel backend)
                 maxAge: 15 * 60 * 1000 // 15 minutes
             });
 
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
+                secure: isProduction,
+                sameSite: isProduction ? 'none' : 'lax',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             });
 
@@ -63,6 +67,7 @@ class AuthController {
             res.cookie('accessToken', accessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 15 * 60 * 1000
             });
 
