@@ -14,7 +14,13 @@ const Login = () => {
             await login(formData.username, formData.password);
             navigate('/dashboard');
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed');
+            if (err.response) {
+                setError(err.response.data.message || 'Login failed');
+            } else if (err.request) {
+                setError('Network Error: Cannot reach Backend. Check connection/CORS.');
+            } else {
+                setError('Error: ' + err.message);
+            }
         }
     };
 

@@ -16,7 +16,13 @@ const Register = () => {
             await api.post('/auth/register', formData);
             navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed');
+            if (err.response) {
+                setError(err.response.data.message || 'Registration failed');
+            } else if (err.request) {
+                setError('Network Error: Cannot reach Backend. Check connection/CORS.');
+            } else {
+                setError('Error: ' + err.message);
+            }
         }
     };
 
