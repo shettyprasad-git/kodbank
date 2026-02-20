@@ -1,61 +1,93 @@
 import React, { useState } from 'react';
+import { Download, ArrowUpRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
+import Sidebar from '../components/Sidebar';
+import StatCard from '../components/StatCard';
+import SpendingChart from '../components/SpendingChart';
+import RecentTransactions from '../components/RecentTransactions';
 
 const Dashboard = () => {
     const { user } = useAuth();
     const [balanceMessage, setBalanceMessage] = useState('');
-    const [showConfetti, setShowConfetti] = useState(false);
 
     const checkBalance = async () => {
         try {
             const { data } = await api.get('/balance');
             setBalanceMessage(data.message);
-            setShowConfetti(true);
-            setTimeout(() => setShowConfetti(false), 3000);
+            // Hide message after 4 seconds
+            setTimeout(() => setBalanceMessage(''), 4000);
         } catch (err) {
             if (err.response) {
                 setBalanceMessage(err.response.data.message || 'Failed to fetch balance');
-            } else if (err.request) {
-                setBalanceMessage('Network Error: Check CORS/Cookies');
             } else {
-                setBalanceMessage('Error: ' + err.message);
+                setBalanceMessage('Network Error');
             }
+            setTimeout(() => setBalanceMessage(''), 4000);
         }
     };
 
-    return (
-        <div className="dashboard-container">
-            <h1>Welcome, {user?.username}</h1>
-            <div className="user-info">
-                <p><strong>Customer ID:</strong> {user?.uid}</p>
-                <p><strong>Username:</strong> {user?.username}</p>
-                <p><strong>Email:</strong> {user?.email}</p>
-                <p><strong>Phone:</strong> {user?.phone}</p>
-                <p><strong>Role:</strong> {user?.role}</p>
-                <p><strong>Joined:</strong> {new Date(user?.created_at).toLocaleDateString()}</p>
-            </div>
+    const handleSendMoney = () => {
+        alert("Send Money functionality coming soon!");
+    };
 
-            <div className="balance-section">
-                <button onClick={checkBalance}>Check Balance</button>
+    return (
+        <div className="app-layout">
+            <Sidebar />
+            <main className="dashboard-main">
+                <header className="dashboard-header">
+                    <div className="header-greeting">
+                        <h1>Welcome back, {user?.username || 'user'}</h1>
+                        <p>Here's what's happening with your finance today.</p>
+                    </div>
+                    <div className="header-actions">
+                        <button className="btn-secondary" onClick={checkBalance}>Check Balance</button>
+                        <button className="btn-primary" onClick={handleSendMoney}>Send Money</button>
+                    </div>
+                </header>
+
                 {balanceMessage && (
-                    <div className="balance-card">
-                        <h3>{balanceMessage}</h3>
+                    <div className="balance-message slide-in">
+                        {balanceMessage}
                     </div>
                 )}
-            </div>
 
-            {showConfetti && (
-                <div className="confetti-container">
-                    <div className="confetti c1"></div>
-                    <div className="confetti c2"></div>
-                    <div className="confetti c3"></div>
-                    <div className="confetti c4"></div>
-                    <div className="confetti c5"></div>
-                    <div className="confetti c6"></div>
-                    <div className="party-popper">🎉</div>
+                <div className="stats-grid">
+                    <StatCard
+                        icon={<span className="dollar-icon">$</span>}
+                        label="Total Balance"
+                        value="$45,231.89"
+                        trend="12.5%"
+                        isPositive={true}
+                    />
+                    <StatCard
+                        icon={<ArrowUpRight size={18} color="#ff7675" />}
+                        label="Monthly Income"
+                        value="$8,432.5"
+                        trend="8.2%"
+                        isPositive={true}
+                    />
+                    <StatCard
+                        icon={<Download size={18} color="#74b9ff" />}
+                        label="Monthly Expenses"
+                        value="$3,120.45"
+                        trend="4.1%"
+                        isPositive={false}
+                    />
+                    <StatCard
+                        icon={<span className="card-icon">💳</span>}
+                        label="Total Savings"
+                        value="$12,450"
+                        trend="15.3%"
+                        isPositive={true}
+                    />
                 </div>
-            )}
+
+                <div className="content-grid">
+                    <SpendingChart />
+                    <RecentTransactions />
+                </div>
+            </main>
         </div>
     );
 };
