@@ -17,8 +17,8 @@ api.interceptors.response.use(
         const originalRequest = error.config;
 
         if (error.response.status === 401 && !originalRequest._retry) { // Access token expired?
-            // If refresh endpoint itself fails (403), don't retry loop
-            if (originalRequest.url === '/auth/refresh') {
+            // If refresh endpoint itself fails or it's a login/register request, don't retry
+            if (originalRequest.url === '/auth/refresh' || originalRequest.url === '/auth/login' || originalRequest.url === '/auth/register') {
                 return Promise.reject(error);
             }
 
