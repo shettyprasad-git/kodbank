@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const responseHandler = require('../utils/responseHandler');
 
 const verifyAccessToken = (req, res, next) => {
-    const token = req.cookies.accessToken || req.headers['authorization']?.split(' ')[1];
+    const token = req.cookies?.accessToken || req.headers['authorization']?.split(' ')[1];
 
     if (!token) {
         return responseHandler(res, 401, null, 'Access Denied: No Token Provided');

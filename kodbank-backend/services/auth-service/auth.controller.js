@@ -56,7 +56,7 @@ class AuthController {
 
     static async refresh(req, res) {
         try {
-            const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+            const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
 
             if (!refreshToken) {
                 return responseHandler(res, 400, null, 'Refresh token required');
@@ -79,7 +79,7 @@ class AuthController {
 
     static async logout(req, res) {
         try {
-            const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+            const refreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
 
             if (refreshToken) {
                 await AuthService.logout(refreshToken);
