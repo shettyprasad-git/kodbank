@@ -14,7 +14,14 @@ const Dashboard = () => {
             setShowConfetti(true);
             setTimeout(() => setShowConfetti(false), 3000);
         } catch (err) {
-            setBalanceMessage('Failed to fetch balance');
+        } catch (err) {
+            if (err.response) {
+                setBalanceMessage(err.response.data.message || 'Failed to fetch balance');
+            } else if (err.request) {
+                setBalanceMessage('Network Error: Check CORS/Cookies');
+            } else {
+                setBalanceMessage('Error: ' + err.message);
+            }
         }
     };
 
