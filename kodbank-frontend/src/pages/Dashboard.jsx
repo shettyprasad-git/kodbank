@@ -14,7 +14,6 @@ const Dashboard = () => {
             setShowConfetti(true);
             setTimeout(() => setShowConfetti(false), 3000);
         } catch (err) {
-        } catch (err) {
             if (err.response) {
                 setBalanceMessage(err.response.data.message || 'Failed to fetch balance');
             } else if (err.request) {
