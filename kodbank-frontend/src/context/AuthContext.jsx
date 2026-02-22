@@ -33,17 +33,30 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (username, password) => {
         const { data } = await api.post('/auth/login', { username, password });
-        setUser(data.data.user);
+        if (data && data.data) {
+            setUser(data.data.user);
+            if (data.data.accessToken) localStorage.setItem('accessToken', data.data.accessToken);
+            if (data.data.refreshToken) localStorage.setItem('refreshToken', data.data.refreshToken);
+        }
         return data;
     };
 
     const register = async (userData) => {
         const { data } = await api.post('/auth/register', userData);
+        if (data && data.data) {
+            setUser(data.data.user);
+            if (data.data.accessToken) localStorage.setItem('accessToken', data.data.accessToken);
+            if (data.data.refreshToken) localStorage.setItem('refreshToken', data.data.refreshToken);
+        }
         return data;
     };
 
     const logout = async () => {
-        await api.post('/auth/logout');
+        try {
+            await api.post('/auth/logout', { refreshToken: localStorage.getItem('refreshToken') });
+        } catch (e) { /* ignore */ }
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         setUser(null);
     };
 

@@ -8,6 +8,15 @@ const api = axios.create({
     }
 });
 
+// Request interceptor for attaching the access token
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
 // Response interceptor for refreshing tokens
 api.interceptors.response.use(
     (response) => {
@@ -25,10 +34,20 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                await api.post('/auth/refresh');
+                const refreshToken = localStorage.getItem('refreshToken');
+                // Even if cookie exists, we'll try sending the localized one if available
+                const { data } = await api.post('/auth/refresh', { refreshToken });
+
+                if (data && data.data && data.data.accessToken) {
+                    localStorage.setItem('accessToken', data.data.accessToken);
+                    originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
+                }
+
                 return api(originalRequest); // Retry original request
             } catch (err) {
                 // Refresh failed - user needs to login again
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
                 // Ideally redirect to login or clear auth state
                 return Promise.reject(err);
             }
