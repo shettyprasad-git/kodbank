@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Download, ArrowUpRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Download, ArrowUpRight, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import Sidebar from '../components/Sidebar';
@@ -10,11 +10,35 @@ import RecentTransactions from '../components/RecentTransactions';
 const Dashboard = () => {
     const { user } = useAuth();
     const [balanceMessage, setBalanceMessage] = useState('');
+    const [realBalance, setRealBalance] = useState(null);
+    const [showBalance, setShowBalance] = useState(true);
+
+    const fetchRealBalance = async () => {
+        try {
+            const { data } = await api.get('/balance');
+            // Extract the number from "Your current balance is $7,110.00"
+            const match = data.message.match(/\$([0-9,.]+)/);
+            if (match && match[1]) {
+                setRealBalance(match[1]);
+            }
+        } catch (err) {
+            console.error("Failed to fetch balance silently", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchRealBalance();
+    }, []);
 
     const checkBalance = async () => {
         try {
             const { data } = await api.get('/balance');
             setBalanceMessage(data.message);
+            // Also update the card just in case
+            const match = data.message.match(/\$([0-9,.]+)/);
+            if (match && match[1]) {
+                setRealBalance(match[1]);
+            }
             // Hide message after 4 seconds
             setTimeout(() => setBalanceMessage(''), 4000);
         } catch (err) {
@@ -25,6 +49,10 @@ const Dashboard = () => {
             }
             setTimeout(() => setBalanceMessage(''), 4000);
         }
+    };
+
+    const toggleBalanceVisibility = () => {
+        setShowBalance(!showBalance);
     };
 
     const handleSendMoney = () => {
@@ -53,13 +81,25 @@ const Dashboard = () => {
                 )}
 
                 <div className="stats-grid">
-                    <StatCard
-                        icon={<span className="dollar-icon">$</span>}
-                        label="Total Balance"
-                        value="$45,231.89"
-                        trend="12.5%"
-                        isPositive={true}
-                    />
+                    <div className="stat-card">
+                        <div className="stat-header">
+                            <div className="stat-icon-wrapper">
+                                <span className="dollar-icon">$</span>
+                            </div>
+                            <button
+                                onClick={toggleBalanceVisibility}
+                                style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+                            >
+                                {showBalance ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
+                        <div className="stat-info">
+                            <p className="stat-label">Total Balance</p>
+                            <h3 className="stat-value">
+                                {showBalance ? `$${realBalance || '45,231.89'}` : '****'}
+                            </h3>
+                        </div>
+                    </div>
                     <StatCard
                         icon={<ArrowUpRight size={18} color="#ff7675" />}
                         label="Monthly Income"

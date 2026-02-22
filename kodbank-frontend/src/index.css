@@ -20,6 +20,9 @@
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(at 0% 0%, rgba(255, 94, 58, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(52, 152, 219, 0.1) 0px, transparent 50%);
   color: var(--text-primary);
   min-height: 100vh;
 }
@@ -407,35 +410,91 @@ body {
 }
 
 .auth-container {
-  max-width: 400px;
-  margin: 3rem auto;
-  padding: 2rem;
-  background: var(--surface-dark);
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
+  max-width: 440px;
+  width: 90%;
+  margin: 5rem auto;
+  padding: 3rem 2rem;
+  background: rgba(30, 31, 36, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(to right, #fff, #b3b3b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .form-group {
   margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-color);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--accent-orange);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 4px rgba(255, 94, 58, 0.1);
+}
+
+.auth-container button[type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-orange), #ff471a);
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 94, 58, 0.3);
+  transition: all 0.3s ease;
+}
+
+.auth-container button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(255, 94, 58, 0.4);
+}
+
+.auth-container button[type="submit"]:active {
+  transform: translateY(0);
 }
 
 .error {
-  color: var(--accent-red);
-  margin-bottom: 1rem;
+  color: #ff7675;
+  background: rgba(255, 118, 117, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 118, 117, 0.2);
 }
 
 @media (max-width: 1024px) {
