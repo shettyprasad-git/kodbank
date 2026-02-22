@@ -16,10 +16,14 @@ const Dashboard = () => {
     const fetchRealBalance = async () => {
         try {
             const { data } = await api.get('/balance');
-            // Extract the number from "Your current balance is $7,110.00"
-            const match = data.message.match(/\$([0-9,.]+)/);
-            if (match && match[1]) {
-                setRealBalance(match[1]);
+            if (data.balance !== undefined) {
+                setRealBalance(data.balance);
+            } else {
+                // Fallback extraction
+                const match = data.message.match(/([0-9,.]+)/);
+                if (match && match[1]) {
+                    setRealBalance(match[1]);
+                }
             }
         } catch (err) {
             console.error("Failed to fetch balance silently", err);
@@ -35,9 +39,13 @@ const Dashboard = () => {
             const { data } = await api.get('/balance');
             setBalanceMessage(data.message);
             // Also update the card just in case
-            const match = data.message.match(/\$([0-9,.]+)/);
-            if (match && match[1]) {
-                setRealBalance(match[1]);
+            if (data.balance !== undefined) {
+                setRealBalance(data.balance);
+            } else {
+                const match = data.message.match(/([0-9,.]+)/);
+                if (match && match[1]) {
+                    setRealBalance(match[1]);
+                }
             }
             // Hide message after 4 seconds
             setTimeout(() => setBalanceMessage(''), 4000);

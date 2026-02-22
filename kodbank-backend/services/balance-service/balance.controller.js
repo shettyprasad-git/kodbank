@@ -6,7 +6,8 @@ class BalanceController {
         try {
             const { balance } = await BalanceService.getBalance(req.user.uid);
             res.status(200).json({
-                message: `your balance is : ${balance}`
+                message: `your balance is : ${balance}`,
+                balance: balance
             });
         } catch (err) {
             responseHandler(res, 404, null, err.message);
