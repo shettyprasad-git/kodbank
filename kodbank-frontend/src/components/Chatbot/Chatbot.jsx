@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Chatbot.css';
-import { api } from '../../utils/api';
+import api from '../../utils/api';
 
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
