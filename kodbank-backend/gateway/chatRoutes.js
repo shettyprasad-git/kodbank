@@ -1,4 +1,3 @@
-```javascript
 const express = require('express');
 const { HfInference } = require('@huggingface/inference');
 
@@ -59,4 +58,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-```
