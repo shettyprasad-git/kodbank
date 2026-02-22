@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 
+import Chatbot from './components/Chatbot/Chatbot';
+
 const AppContent = () => {
   const location = useLocation();
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
@@ -25,6 +27,7 @@ const AppContent = () => {
           </Route>
         </Routes>
       </div>
+      <Chatbot />
     </>
   );
 };

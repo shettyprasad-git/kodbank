@@ -41,6 +41,7 @@ db.promise().query('SELECT 1')
 
 // Routes
 app.use('/api', require('./gateway/routes'));
+app.use('/api/chat', require('./gateway/chatRoutes'));
 
 app.get('/', (req, res) => {
     res.send('Kodbank API is running');
