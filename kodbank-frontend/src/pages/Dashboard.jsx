@@ -11,7 +11,7 @@ const Dashboard = () => {
     const { user } = useAuth();
     const [balanceMessage, setBalanceMessage] = useState('');
     const [realBalance, setRealBalance] = useState(null);
-    const [showBalance, setShowBalance] = useState(true);
+    const [showBalance, setShowBalance] = useState(false);
 
     const fetchRealBalance = async () => {
         try {

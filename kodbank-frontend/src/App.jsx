@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Analytics from './pages/Analytics';
+import Cards from './pages/Cards';
+import Assets from './pages/Assets';
+import Settings from './pages/Settings';
 
 import Chatbot from './components/Chatbot/Chatbot';
 
@@ -25,6 +29,10 @@ const AppContent = () => {
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/cards" element={<Cards />} />
+            <Route path="/assets" element={<Assets />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/" element={<Dashboard />} />
           </Route>
         </Routes>
